@@ -45,7 +45,7 @@ int pad2_vel = 0;
 int pad1_score = 0;
 int pad2_score = 0;
 
-Vector2f vel(-180, 100);
+Vector2f vel(-200, 100);
 
 paddle p1(paddle(Vector2f(0, 200), Vector2f(5, 128), Texture(tex_pad)));
 
@@ -160,11 +160,11 @@ void update_state(float dt)
 	//pad2
 	if (b.ball.getPosition().y < p2.pad.getPosition().y)
 	{
-		pad2_vel = -144;
+		pad2_vel = -150;
 	}
 	if (b.ball.getPosition().y > p2.pad.getPosition().y)
 	{
-		pad2_vel = 144 ;
+		pad2_vel = 150 ;
 	}
 
 
@@ -237,12 +237,14 @@ void update_state(float dt)
 		
 			hit.play();
 			float x = 1.05*vel.x;
+			//float y1 = 1.05*vel.y;
 			//vel.y = 1.05*vel.y;
 			//float ref1 = x * x + y * y;
 
 			if (ball_pos.y <= pad_pos.y + 64) {
 				float hit_ratio = (pad_pos.y + 64 - ball_pos.y) / 64;
-				float y = (vel.y + hit_ratio * 10);
+				float y1 = sqrt(vel.y*vel.y);
+				float y = (0.5* y1 + hit_ratio * 180);
 				vel.y = -1.05*sqrt(y*y);
 				/*float ref = (ref1 - vel.y*vel.y);*/
 				vel.x = sqrt(x*x);
@@ -251,7 +253,9 @@ void update_state(float dt)
 			}
 			else if (ball_pos.y > pad_pos.y + 64) {
 				float hit_ratio = (ball_pos.y - (pad_pos.y + 64)) / 64;
-				float y = (vel.y + hit_ratio * 10);
+				float y1 = sqrt(vel.y*vel.y);
+				float y = (0.5* y1  + hit_ratio * 180);
+
 				vel.y = 1.05* sqrt(y*y);
 				/*float ref = (ref1 - vel.y*vel.y);*/
 				vel.x = sqrt(x*x);
@@ -278,14 +282,16 @@ void update_state(float dt)
 
 				if (ball_pos.y <= pad2_pos.y + 64) {
 					float hit_ratio = (pad2_pos.y + 64 - ball_pos.y) / 64;
-					float y = (vel.y + hit_ratio * 10);
+					float y1 = sqrt(vel.y*vel.y);
+					float y = (0.5* y1 + hit_ratio * 180);
 					vel.y = -1.05*sqrt(y*y);
 					vel.x = -sqrt(x*x);
 
 				}
 				else if (ball_pos.y > pad2_pos.y + 64) {
 					float hit_ratio = (ball_pos.y - (pad2_pos.y + 64)) / 64;
-					float y = (vel.y + hit_ratio * 10);
+					float y1 = sqrt(vel.y*vel.y);
+					float y = (0.5*y1 + hit_ratio * 180);
 					vel.y = 1.05*sqrt(y*y);
 					
 					vel.x = -sqrt(x*x);
@@ -333,9 +339,9 @@ void update_state(float dt)
 	//	hit.play();
 	//		vel.x = -vel.x;	
 	//}
-	if (ball_pos.y +10> window.getSize().y)
+	if (ball_pos.y +10>= window.getSize().y)
 		vel.y = -vel.y;
-	if (ball_pos.y < 0)
+	if (ball_pos.y <= 0)
 		vel.y = -vel.y;
 
 

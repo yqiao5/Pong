@@ -145,9 +145,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="mousemove.cpp" />
     <ClCompile Include="Source.cpp" />
-    <ClCompile Include="velovity.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Ball.h" />
